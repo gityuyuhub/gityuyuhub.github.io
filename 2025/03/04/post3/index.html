@@ -1,0 +1,312 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>【技术篇】transformer解析 | yuyu</title><meta name="author" content="yuyu"><meta name="copyright" content="yuyu"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="在特征提取中，最早我们使用DNN进行特征提取，这种全连接的方式，虽然可以提取出很多特征，但是这种设计往往只能提取简单特征和整体特征；后来，在图像领域，我们使用了卷积神经网络（CNN），这种依托卷积核的设计，可以让模型提取到图片局部特征。后来，随着深度学习在自然语言处理领域的应用，人们迫切需要设计一种可以结合上下文的特征提取模型，RNN随即出现，它使用了一种串行的时间步的设计，模型提">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【技术篇】transformer解析">
+<meta property="og:url" content="http://example.com/2025/03/04/post3/index.html">
+<meta property="og:site_name" content="yuyu">
+<meta property="og:description" content="在特征提取中，最早我们使用DNN进行特征提取，这种全连接的方式，虽然可以提取出很多特征，但是这种设计往往只能提取简单特征和整体特征；后来，在图像领域，我们使用了卷积神经网络（CNN），这种依托卷积核的设计，可以让模型提取到图片局部特征。后来，随着深度学习在自然语言处理领域的应用，人们迫切需要设计一种可以结合上下文的特征提取模型，RNN随即出现，它使用了一种串行的时间步的设计，模型提">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pic1.zhimg.com/v2-9efa9909ceaf3f5874aa9de8c290610e_1440w.jpg">
+<meta property="article:published_time" content="2025-03-03T16:58:17.000Z">
+<meta property="article:modified_time" content="2025-03-03T17:27:26.205Z">
+<meta property="article:author" content="yuyu">
+<meta property="article:tag" content="Transformer">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pic1.zhimg.com/v2-9efa9909ceaf3f5874aa9de8c290610e_1440w.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "【技术篇】transformer解析",
+  "url": "http://example.com/2025/03/04/post3/",
+  "image": "https://pic1.zhimg.com/v2-9efa9909ceaf3f5874aa9de8c290610e_1440w.jpg",
+  "datePublished": "2025-03-03T16:58:17.000Z",
+  "dateModified": "2025-03-03T17:27:26.205Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "yuyu",
+      "url": "http://example.com/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/v.png"><link rel="canonical" href="http://example.com/2025/03/04/post3/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '【技术篇】transformer解析',
+  isHighlightShrink: false,
+  isToc: false,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="web_bg" style="background-image: url(https://pic3.zhimg.com/v2-226e577e525f24d3e228737bbd0664a6_r.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/yu.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">4</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">9</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" target="_blank" rel="noopener" href="https://faculty.ustc.edu.cn/IPlab/zh_CN/more/655343/jsjjgd/index.htm"><i class="fa-fw fas fa-flask"></i><span> 实验室</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 档案</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://pic1.zhimg.com/v2-9efa9909ceaf3f5874aa9de8c290610e_1440w.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="https://img0.baidu.com/it/u=3750635231,1396466790&amp;fm=253&amp;fmt=auto&amp;app=120&amp;f=JPEG?w=800&amp;h=800" alt="Logo"><span class="site-name">yuyu</span></a><a class="nav-page-title" href="/"><span class="site-name">【技术篇】transformer解析</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" target="_blank" rel="noopener" href="https://faculty.ustc.edu.cn/IPlab/zh_CN/more/655343/jsjjgd/index.htm"><i class="fa-fw fas fa-flask"></i><span> 实验室</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 档案</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">【技术篇】transformer解析</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-03-03T16:58:17.000Z" title="发表于 2025-03-04 00:58:17">2025-03-04</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-03-03T17:27:26.205Z" title="更新于 2025-03-04 01:27:26">2025-03-04</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><figure style="text-align:center;">
+    <img src="/sucai/jishu1/j1_f1.png" style="width: 80%; height: auto;">
+</figure>
+
+<p>在特征提取中，最早我们使用<sapn class="highlight-text"><strong>DNN</strong></sapn>进行特征提取，这种全连接的方式，虽然可以提取出很多特征，但是这种设计往往只能提取<strong>简单特征</strong>和<strong>整体特征</strong>；后来，在图像领域，我们使用了卷积神经网络（<span class="highlight-text"><strong>CNN</strong></span>），这种依托卷积核的设计，可以让模型提取到图片<strong>局部特征</strong>。后来，随着深度学习在自然语言处理领域的应用，人们迫切需要设计一种可以<strong>结合上下文</strong>的特征提取模型，<span class="highlight-text"><strong>RNN</strong></span>随即出现，它使用了一种<strong>串行</strong>的时间步的设计，模型提取特征时会结合上一个时间步的特征，这种设计可以让模型提取到<strong>序列特征</strong>，接着，<span class="highlight-text"><strong>LSTM</strong></span>和<span class="highlight-text"><strong>GRU</strong></span>出现，它们在RNN的基础上，增加了<strong>记忆单元</strong>，可以让模型更好地提取到<strong>长期依赖</strong>的特征，然而他们具有<strong>梯度消失</strong>的问题，为了解决这个问题，<span class="highlight-text"><strong>transformer</strong></span>出现了，它使用了<strong>并行计算的自注意力机制</strong>，可以让模型更好地提取到<strong>结合上下文</strong>的特征。</p>
+<p>transformer的成功，让人们对于深度学习的特征提取模型有了新的认识，它的出现，不仅仅是为了解决梯度消失的问题，更是为了让模型更好地提取到<strong>结合上下文和注意力</strong>的特征，这种设计，让transformer在自然语言处理领域有了很好的应用，更在图像处理和时间信号处理领域有了很好的应用。<span class="highlight-text"><strong>ViT</strong></span>和<span class="highlight-text"><strong>swin-transformer</strong></span>是transformer在图像领域的应用。</p>
+ <style>
+    .highlight-text {
+      background-color: #f0f8ff;         /* 设置背景色 */
+      border-radius: 4px;                /* 设置圆角 */
+      padding: 0 5px;                    /* 设置内边距，确保文本不与边框贴得太紧 */
+      box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);  /* 添加轻微的阴影 */
+      border: 2px solidrgb(0, 98, 133);         /* 添加边缘线，颜色为浅灰色，宽度为 2px */
+    }
+  </style>
+
+  <style>
+    .highlight-normal {
+      background-color: #fff8dc;         /* 设置浅黄色背景色 */
+      border-radius: 4px;                /* 设置圆角 */
+      padding: 0 5px;                    /* 设置内边距，确保文本不与边框贴得太紧 */
+      box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);  /* 添加轻微的阴影 */
+      border: 1px solid #f0e68c;         /* 添加浅黄色边缘线，颜色为浅黄色，宽度为 2px */
+    }
+  </style>
+
+  <style>
+    .bbox {
+      background-color: #f0f8ff;        /* 设置背景色为浅黄色 */
+      border-radius: 8px;               /* 设置圆角 */
+      padding: 10px;                    /* 设置内边距 */
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* 添加轻微的阴影 */
+      border: 2px solidrgb(126, 230, 206);        /* 设置浅黄色边框 */
+      display: block;                   /* 确保框体显示为块元素，独占一行 */
+      margin-top: 10px;                 /* 给框体添加顶部间距 */
+      font-family: "Times New Roman", Times, serif; /* 设置字体为 Times New Roman */
+    }
+  </style>
+
+
+  <style>
+    .yubox {
+      background-color:rgb(229, 234, 204);        /* 设置背景色为浅黄色 */
+      border-radius: 8px;               /* 设置圆角 */
+      padding: 10px;                    /* 设置内边距 */
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* 添加轻微的阴影 */
+      border: 2px solidrgb(126, 230, 206);        /* 设置浅黄色边框 */
+      display: block;                   /* 确保框体显示为块元素，独占一行 */
+      margin-top: 10px;                 /* 给框体添加顶部间距 */
+    }
+  </style></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://example.com">yuyu</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2025/03/04/post3/">http://example.com/2025/03/04/post3/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="http://example.com" target="_blank">yuyu</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Transformer/">Transformer</a></div><div class="post-share"><div class="social-share" data-image="https://pic1.zhimg.com/v2-9efa9909ceaf3f5874aa9de8c290610e_1440w.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/2025/02/28/post2/" title="【论文阅读】：Med-Former： A Transformer-based Architecture for Medical Image Classification"><img class="cover" src="https://picx.zhimg.com/v2-31af717d5ebecb7d19dd56b65383af7f_1440w.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">【论文阅读】：Med-Former： A Transformer-based Architecture for Medical Image Classification</div></div><div class="info-2"><div class="info-item-1">        ⭐论文信息   文献类型：会议论文(CCFB)   发表刊物：MICCAI   发表时间：2024   发表单位：纽约州立大学石溪分校   1.1 拟解决的科学问题✨ 本论文旨在解决Transformer在医学图像分类任务中的应用问题，主要解决了Transformer在医学图像分类任务中特征提取不佳和不能很好地传播有效的信息的问题。✨ 本文属于医学图像分类领域，我还将其归为多尺度融合领域，具体涉及到局部全局特征融合领域。 ⭐论文背景2.1 基本背景和前提技术✨ 多尺度融合：多尺度融合是指将不同尺度的特征进行融合，以提高特征的表达能力，在图像特征提取中，多尺度融合常表明图像的不同分辨率的特征融合，例如在CNN中设计的多尺度卷积核，卷积核的大小不同，意味着卷积核能够提取不同尺度的特征：越小的卷积核提取的是细节特征，越大的卷积核提取的是全局特征，如何将这些各种尺度的特征融合起来，学术界称之为多尺度融合任务。 ✨...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2025/02/28/post2/" title="【论文阅读】：Med-Former： A Transformer-based Architecture for Medical Image Classification"><img class="cover" src="https://picx.zhimg.com/v2-31af717d5ebecb7d19dd56b65383af7f_1440w.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-02-28</div><div class="info-item-2">【论文阅读】：Med-Former： A Transformer-based Architecture for Medical Image Classification</div></div><div class="info-2"><div class="info-item-1">        ⭐论文信息   文献类型：会议论文(CCFB)   发表刊物：MICCAI   发表时间：2024   发表单位：纽约州立大学石溪分校   1.1 拟解决的科学问题✨ 本论文旨在解决Transformer在医学图像分类任务中的应用问题，主要解决了Transformer在医学图像分类任务中特征提取不佳和不能很好地传播有效的信息的问题。✨ 本文属于医学图像分类领域，我还将其归为多尺度融合领域，具体涉及到局部全局特征融合领域。 ⭐论文背景2.1 基本背景和前提技术✨ 多尺度融合：多尺度融合是指将不同尺度的特征进行融合，以提高特征的表达能力，在图像特征提取中，多尺度融合常表明图像的不同分辨率的特征融合，例如在CNN中设计的多尺度卷积核，卷积核的大小不同，意味着卷积核能够提取不同尺度的特征：越小的卷积核提取的是细节特征，越大的卷积核提取的是全局特征，如何将这些各种尺度的特征融合起来，学术界称之为多尺度融合任务。 ✨...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="gitalk-container"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/yu.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">yuyu</div><div class="author-info-description">欢迎来到yuyu的个人博客</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">4</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">9</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/gityuyuhub" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:2743342512@qq.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget card-post-series"><div class="item-headline"><i class="fa-solid fa-layer-group"></i><span>系列文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/03/04/post3/" title="【技术篇】transformer解析"><img src="https://pic1.zhimg.com/v2-9efa9909ceaf3f5874aa9de8c290610e_1440w.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【技术篇】transformer解析"></a><div class="content"><a class="title" href="/2025/03/04/post3/" title="【技术篇】transformer解析">【技术篇】transformer解析</a><time datetime="2025-03-03T16:58:17.000Z" title="发表于 2025-03-04 00:58:17">2025-03-04</time></div></div></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/03/04/post3/" title="【技术篇】transformer解析"><img src="https://pic1.zhimg.com/v2-9efa9909ceaf3f5874aa9de8c290610e_1440w.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【技术篇】transformer解析"/></a><div class="content"><a class="title" href="/2025/03/04/post3/" title="【技术篇】transformer解析">【技术篇】transformer解析</a><time datetime="2025-03-03T16:58:17.000Z" title="发表于 2025-03-04 00:58:17">2025-03-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/02/28/post2/" title="【论文阅读】：Med-Former： A Transformer-based Architecture for Medical Image Classification"><img src="https://picx.zhimg.com/v2-31af717d5ebecb7d19dd56b65383af7f_1440w.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【论文阅读】：Med-Former： A Transformer-based Architecture for Medical Image Classification"/></a><div class="content"><a class="title" href="/2025/02/28/post2/" title="【论文阅读】：Med-Former： A Transformer-based Architecture for Medical Image Classification">【论文阅读】：Med-Former： A Transformer-based Architecture for Medical Image Classification</a><time datetime="2025-02-27T16:49:17.000Z" title="发表于 2025-02-28 00:49:17">2025-02-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/02/21/post1/" title="【论文阅读】：Large Loss Matters in Weakly Supervised Multi-Label Classification"><img src="https://pic4.zhimg.com/v2-94b8e424e313f6351b185f8f572ef271_r.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【论文阅读】：Large Loss Matters in Weakly Supervised Multi-Label Classification"/></a><div class="content"><a class="title" href="/2025/02/21/post1/" title="【论文阅读】：Large Loss Matters in Weakly Supervised Multi-Label Classification">【论文阅读】：Large Loss Matters in Weakly Supervised Multi-Label Classification</a><time datetime="2025-02-20T16:54:42.000Z" title="发表于 2025-02-21 00:54:42">2025-02-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/02/19/hello-world/" title="Hello World"><img src="https://pica.zhimg.com/v2-f71d85e2562138561950f98bea051964_1440w.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Hello World"/></a><div class="content"><a class="title" href="/2025/02/19/hello-world/" title="Hello World">Hello World</a><time datetime="2025-02-19T13:26:24.682Z" title="发表于 2025-02-19 21:26:24">2025-02-19</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(https://pic1.zhimg.com/v2-9efa9909ceaf3f5874aa9de8c290610e_1440w.jpg);"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2025 By yuyu</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.3.3</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"><script>(() => {
+  const loadMathjax = () => {
+    if (!window.MathJax) {
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          tags: 'none',
+        },
+        chtml: {
+          scale: 1.1
+        },
+        options: {
+          enableMenu: true,
+          renderActions: {
+            findScript: [10, doc => {
+              for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+                const display = !!node.type.match(/; *mode=display/)
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+                const text = document.createTextNode('')
+                node.parentNode.replaceChild(text, node)
+                math.start = {node: text, delim: '', n: 0}
+                math.end = {node: text, delim: '', n: 0}
+                doc.math.push(math)
+              }
+            }, '']
+          }
+        }
+      }
+
+      const script = document.createElement('script')
+      script.src = 'https://cdn.jsdelivr.net/npm/mathjax/es5/tex-mml-chtml.min.js'
+      script.id = 'MathJax-script'
+      script.async = true
+      document.head.appendChild(script)
+    } else {
+      MathJax.startup.document.state(0)
+      MathJax.texReset()
+      MathJax.typesetPromise()
+    }
+  }
+
+  btf.addGlobalFn('encrypt', loadMathjax, 'mathjax')
+  window.pjax ? loadMathjax() : window.addEventListener('load', loadMathjax)
+})()</script><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const commentCount = n => {
+    const isCommentCount = document.querySelector('#post-meta .gitalk-comment-count')
+    if (isCommentCount) {
+      isCommentCount.textContent= n
+    }
+  }
+
+  const initGitalk = (el, path) => {
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGitalk = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+
+    const gitalk = new Gitalk({
+      clientID: 'Ov23lienmr7axdYseqeC',
+      clientSecret: 'b7f1b4e555108e1113715eb05f7527c6d1ad667d',
+      repo: 'gityuyuhub.github.io',
+      owner: 'gityuyuhub',
+      admin: ['gityuyuhub'],
+      updateCountCallback: commentCount,
+      ...option,
+      id: isShuoshuo ? path : (option && option.id) || '6618881c37a522af5f2ee9898e18e8ff'
+    })
+
+    gitalk.render('gitalk-container')
+  }
+
+  const loadGitalk = async(el, path) => {
+    if (typeof Gitalk === 'function') initGitalk(el, path)
+    else {
+      await btf.getCSS('https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.css')
+      await btf.getScript('https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js')
+      initGitalk(el, path)
+    }
+  }
+
+  if (isShuoshuo) {
+    'Gitalk' === 'Gitalk'
+      ? window.shuoshuoComment = { loadComment: loadGitalk }
+      : window.loadOtherComment = loadGitalk
+    return
+  }
+
+  if ('Gitalk' === 'Gitalk' || !true) {
+    if (true) btf.loadComment(document.getElementById('gitalk-container'), loadGitalk)
+    else loadGitalk()
+  } else {
+    window.loadOtherComment = loadGitalk
+  }
+})()</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
