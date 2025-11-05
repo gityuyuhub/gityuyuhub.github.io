@@ -1,0 +1,361 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>【AI生成】：如何标准地写一个AI工程文件夹？ | yuyu</title><meta name="author" content="yuyu"><meta name="copyright" content="yuyu"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="好的，我会将前述的内容整理成一个完整的、详细的标准AI工程框架，并转化为一个 .md 格式的文档。这个文档将详细描述每个文件和文件夹的职责、代码结构和如何组织整个深度学习项目。  标准AI工程框架文档项目文件结构1234567891011121314151617181920212223242526272829303132project_name&#x2F;│├── data&#x2F;│   ├── raw&#x2F;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【AI生成】：如何标准地写一个AI工程文件夹？">
+<meta property="og:url" content="http://example.com/2025/11/05/post8/index.html">
+<meta property="og:site_name" content="yuyu">
+<meta property="og:description" content="好的，我会将前述的内容整理成一个完整的、详细的标准AI工程框架，并转化为一个 .md 格式的文档。这个文档将详细描述每个文件和文件夹的职责、代码结构和如何组织整个深度学习项目。  标准AI工程框架文档项目文件结构1234567891011121314151617181920212223242526272829303132project_name&#x2F;│├── data&#x2F;│   ├── raw&#x2F;">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pic4.zhimg.com/v2-94b8e424e313f6351b185f8f572ef271_r.jpg">
+<meta property="article:published_time" content="2025-11-05T06:20:17.000Z">
+<meta property="article:modified_time" content="2025-11-05T09:14:59.481Z">
+<meta property="article:author" content="yuyu">
+<meta property="article:tag" content="代码">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pic4.zhimg.com/v2-94b8e424e313f6351b185f8f572ef271_r.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "【AI生成】：如何标准地写一个AI工程文件夹？",
+  "url": "http://example.com/2025/11/05/post8/",
+  "image": "https://pic4.zhimg.com/v2-94b8e424e313f6351b185f8f572ef271_r.jpg",
+  "datePublished": "2025-11-05T06:20:17.000Z",
+  "dateModified": "2025-11-05T09:14:59.481Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "yuyu",
+      "url": "http://example.com/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/v.png"><link rel="canonical" href="http://example.com/2025/11/05/post8/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '【AI生成】：如何标准地写一个AI工程文件夹？',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="web_bg" style="background-image: url(https://pic3.zhimg.com/v2-226e577e525f24d3e228737bbd0664a6_r.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/yu.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">9</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">19</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" target="_blank" rel="noopener" href="https://faculty.ustc.edu.cn/IPlab/zh_CN/more/655343/jsjjgd/index.htm"><i class="fa-fw fas fa-flask"></i><span> 实验室</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 档案</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="/my-daily/"><i class="fa-fw fas fa-calendar-day"></i><span> 我的日常</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://pic4.zhimg.com/v2-94b8e424e313f6351b185f8f572ef271_r.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="https://img0.baidu.com/it/u=3750635231,1396466790&amp;fm=253&amp;fmt=auto&amp;app=120&amp;f=JPEG?w=800&amp;h=800" alt="Logo"><span class="site-name">yuyu</span></a><a class="nav-page-title" href="/"><span class="site-name">【AI生成】：如何标准地写一个AI工程文件夹？</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" target="_blank" rel="noopener" href="https://faculty.ustc.edu.cn/IPlab/zh_CN/more/655343/jsjjgd/index.htm"><i class="fa-fw fas fa-flask"></i><span> 实验室</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 档案</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="/my-daily/"><i class="fa-fw fas fa-calendar-day"></i><span> 我的日常</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">【AI生成】：如何标准地写一个AI工程文件夹？</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-11-05T06:20:17.000Z" title="发表于 2025-11-05 14:20:17">2025-11-05</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-11-05T09:14:59.481Z" title="更新于 2025-11-05 17:14:59">2025-11-05</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><p>好的，我会将前述的内容整理成一个完整的、详细的标准AI工程框架，并转化为一个 <code>.md</code> 格式的文档。这个文档将详细描述每个文件和文件夹的职责、代码结构和如何组织整个深度学习项目。</p>
+<hr>
+<h1 id="标准AI工程框架文档"><a href="#标准AI工程框架文档" class="headerlink" title="标准AI工程框架文档"></a>标准AI工程框架文档</h1><h2 id="项目文件结构"><a href="#项目文件结构" class="headerlink" title="项目文件结构"></a>项目文件结构</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">project_name/</span><br><span class="line">│</span><br><span class="line">├── data/</span><br><span class="line">│   ├── raw/               # 原始数据（如果有的话）</span><br><span class="line">│   ├── processed/         # 处理后的数据</span><br><span class="line">│   └── utils.py           # 数据相关的工具函数（例如数据增强）</span><br><span class="line">│</span><br><span class="line">├── models/                # 模型相关</span><br><span class="line">│   ├── __init__.py        # 模型模块</span><br><span class="line">│   ├── model.py           # 模型的定义</span><br><span class="line">│   ├── layers.py          # 定义不同的神经网络层</span><br><span class="line">│   └── loss.py            # 损失函数</span><br><span class="line">│</span><br><span class="line">├── scripts/               # 脚本</span><br><span class="line">│   ├── train.py           # 训练脚本</span><br><span class="line">│   ├── test.py            # 测试脚本</span><br><span class="line">│   └── predict.py         # 推理脚本</span><br><span class="line">│</span><br><span class="line">├── utils/                 # 辅助工具类</span><br><span class="line">│   ├── __init__.py        # 工具模块</span><br><span class="line">│   ├── train_utils.py     # 训练相关的工具函数（如学习率调整）</span><br><span class="line">│   ├── evaluation.py      # 评估函数（如准确率、损失）</span><br><span class="line">│   ├── logging.py         # 日志相关</span><br><span class="line">│   └── config.py          # 配置文件（如超参数、文件路径）</span><br><span class="line">│</span><br><span class="line">├── config/                # 配置文件夹</span><br><span class="line">│   └── config.yaml        # 配置文件，包含超参数、路径等</span><br><span class="line">│</span><br><span class="line">├── checkpoints/           # 存放模型权重文件</span><br><span class="line">│</span><br><span class="line">├── requirements.txt       # 包含项目所需的所有依赖库</span><br><span class="line">└── README.md              # 项目说明文件</span><br></pre></td></tr></table></figure>
+<h2 id="各文件夹及文件说明"><a href="#各文件夹及文件说明" class="headerlink" title="各文件夹及文件说明"></a>各文件夹及文件说明</h2><h3 id="1-data-数据相关"><a href="#1-data-数据相关" class="headerlink" title="1. data/: 数据相关"></a>1. <code>data/</code>: 数据相关</h3><p>该文件夹包含所有数据相关的内容，包括原始数据、预处理后的数据以及自定义的数据加载和增强方法。</p>
+<h4 id="data-raw"><a href="#data-raw" class="headerlink" title="data/raw/"></a><code>data/raw/</code></h4><ul>
+<li>存放原始数据。如果数据集较大或格式较复杂，通常将数据分成多个子目录存放。</li>
+</ul>
+<h4 id="data-processed"><a href="#data-processed" class="headerlink" title="data/processed/"></a><code>data/processed/</code></h4><ul>
+<li>存放预处理后的数据，通常会根据项目的需求进行格式化处理、标准化、分割训练集/验证集/测试集等操作。</li>
+</ul>
+<h4 id="data-utils-py"><a href="#data-utils-py" class="headerlink" title="data/utils.py"></a><code>data/utils.py</code></h4><ul>
+<li>包含数据预处理和数据增强的工具函数，继承自 PyTorch 的 <code>torch.utils.data.Dataset</code>。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># data/utils.py</span></span><br><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">from</span> torch.utils.data <span class="keyword">import</span> Dataset</span><br><span class="line"><span class="keyword">from</span> torchvision <span class="keyword">import</span> transforms</span><br><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">CustomDataset</span>(<span class="title class_ inherited__">Dataset</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, data_dir, transform=<span class="literal">None</span></span>):</span><br><span class="line">        <span class="variable language_">self</span>.data_dir = data_dir</span><br><span class="line">        <span class="variable language_">self</span>.transform = transform</span><br><span class="line">        <span class="variable language_">self</span>.image_paths = [os.path.join(data_dir, fname) <span class="keyword">for</span> fname <span class="keyword">in</span> os.listdir(data_dir) <span class="keyword">if</span> fname.endswith(<span class="string">&#x27;.jpg&#x27;</span>)]</span><br><span class="line">        <span class="variable language_">self</span>.labels = [<span class="number">0</span>] * <span class="built_in">len</span>(<span class="variable language_">self</span>.image_paths)  <span class="comment"># 这里只是示例，实际应该根据数据集生成标签</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__len__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">len</span>(<span class="variable language_">self</span>.image_paths)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__getitem__</span>(<span class="params">self, idx</span>):</span><br><span class="line">        img_path = <span class="variable language_">self</span>.image_paths[idx]</span><br><span class="line">        image = Image.<span class="built_in">open</span>(img_path)</span><br><span class="line">        label = <span class="variable language_">self</span>.labels[idx]</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> <span class="variable language_">self</span>.transform:</span><br><span class="line">            image = <span class="variable language_">self</span>.transform(image)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> image, label</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_train_data</span>():</span><br><span class="line">    transform = transforms.Compose([</span><br><span class="line">        transforms.Resize((<span class="number">32</span>, <span class="number">32</span>)),</span><br><span class="line">        transforms.ToTensor(),</span><br><span class="line">        transforms.Normalize(mean=[<span class="number">0.5</span>, <span class="number">0.5</span>, <span class="number">0.5</span>], std=[<span class="number">0.5</span>, <span class="number">0.5</span>, <span class="number">0.5</span>])</span><br><span class="line">    ])</span><br><span class="line">    <span class="keyword">return</span> CustomDataset(data_dir=<span class="string">&quot;data/processed/train&quot;</span>, transform=transform)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_test_data</span>():</span><br><span class="line">    transform = transforms.Compose([</span><br><span class="line">        transforms.Resize((<span class="number">32</span>, <span class="number">32</span>)),</span><br><span class="line">        transforms.ToTensor(),</span><br><span class="line">        transforms.Normalize(mean=[<span class="number">0.5</span>, <span class="number">0.5</span>, <span class="number">0.5</span>], std=[<span class="number">0.5</span>, <span class="number">0.5</span>, <span class="number">0.5</span>])</span><br><span class="line">    ])</span><br><span class="line">    <span class="keyword">return</span> CustomDataset(data_dir=<span class="string">&quot;data/processed/test&quot;</span>, transform=transform)</span><br></pre></td></tr></table></figure>
+<h3 id="2-models-模型相关"><a href="#2-models-模型相关" class="headerlink" title="2. models/: 模型相关"></a>2. <code>models/</code>: 模型相关</h3><p>该文件夹包含神经网络模型的定义、损失函数以及可能的自定义层。</p>
+<h4 id="models-model-py"><a href="#models-model-py" class="headerlink" title="models/model.py"></a><code>models/model.py</code></h4><ul>
+<li>主要文件，定义模型架构。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># models/model.py</span></span><br><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> torch.nn <span class="keyword">as</span> nn</span><br><span class="line"><span class="keyword">import</span> torch.nn.functional <span class="keyword">as</span> F</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MyModel</span>(nn.Module):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">super</span>(MyModel, <span class="variable language_">self</span>).__init__()</span><br><span class="line">        <span class="comment"># 定义网络层</span></span><br><span class="line">        <span class="variable language_">self</span>.conv1 = nn.Conv2d(in_channels=<span class="number">3</span>, out_channels=<span class="number">64</span>, kernel_size=<span class="number">3</span>, stride=<span class="number">1</span>, padding=<span class="number">1</span>)</span><br><span class="line">        <span class="variable language_">self</span>.conv2 = nn.Conv2d(in_channels=<span class="number">64</span>, out_channels=<span class="number">128</span>, kernel_size=<span class="number">3</span>, stride=<span class="number">1</span>, padding=<span class="number">1</span>)</span><br><span class="line">        <span class="variable language_">self</span>.fc1 = nn.Linear(<span class="number">128</span> * <span class="number">32</span> * <span class="number">32</span>, <span class="number">512</span>)  <span class="comment"># 假设输入图像是 32x32x3</span></span><br><span class="line">        <span class="variable language_">self</span>.fc2 = nn.Linear(<span class="number">512</span>, <span class="number">10</span>)  <span class="comment"># 输出10类</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">forward</span>(<span class="params">self, x</span>):</span><br><span class="line">        <span class="comment"># 定义前向传播</span></span><br><span class="line">        x = F.relu(<span class="variable language_">self</span>.conv1(x))</span><br><span class="line">        x = F.max_pool2d(x, <span class="number">2</span>)</span><br><span class="line">        x = F.relu(<span class="variable language_">self</span>.conv2(x))</span><br><span class="line">        x = F.max_pool2d(x, <span class="number">2</span>)</span><br><span class="line">        x = x.view(x.size(<span class="number">0</span>), -<span class="number">1</span>)  <span class="comment"># 扁平化</span></span><br><span class="line">        x = F.relu(<span class="variable language_">self</span>.fc1(x))</span><br><span class="line">        x = <span class="variable language_">self</span>.fc2(x)</span><br><span class="line">        <span class="keyword">return</span> x</span><br></pre></td></tr></table></figure>
+<h4 id="models-loss-py"><a href="#models-loss-py" class="headerlink" title="models/loss.py"></a><code>models/loss.py</code></h4><ul>
+<li>主要存放损失函数的定义，包括自定义损失函数。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># models/loss.py</span></span><br><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> torch.nn <span class="keyword">as</span> nn</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">CustomLoss</span>(nn.Module):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">super</span>(CustomLoss, <span class="variable language_">self</span>).__init__()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">forward</span>(<span class="params">self, outputs, labels</span>):</span><br><span class="line">        <span class="comment"># 可以在这里定义自定义损失函数</span></span><br><span class="line">        loss = nn.CrossEntropyLoss()(outputs, labels)</span><br><span class="line">        <span class="keyword">return</span> loss</span><br></pre></td></tr></table></figure>
+<h3 id="3-scripts-脚本"><a href="#3-scripts-脚本" class="headerlink" title="3. scripts/: 脚本"></a>3. <code>scripts/</code>: 脚本</h3><p>该文件夹包含用于训练、测试和推理的主脚本。</p>
+<h4 id="scripts-train-py"><a href="#scripts-train-py" class="headerlink" title="scripts/train.py"></a><code>scripts/train.py</code></h4><ul>
+<li>用于训练模型，加载数据、模型、优化器等，并进行训练。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># scripts/train.py</span></span><br><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">from</span> torch.utils.data <span class="keyword">import</span> DataLoader</span><br><span class="line"><span class="keyword">from</span> models.model <span class="keyword">import</span> MyModel</span><br><span class="line"><span class="keyword">from</span> data.utils <span class="keyword">import</span> get_train_data</span><br><span class="line"><span class="keyword">from</span> utils.train_utils <span class="keyword">import</span> train_one_epoch</span><br><span class="line"><span class="keyword">from</span> utils.logging <span class="keyword">import</span> setup_logging</span><br><span class="line"><span class="keyword">from</span> utils.config <span class="keyword">import</span> load_config</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">train</span>():</span><br><span class="line">    <span class="comment"># 配置文件加载</span></span><br><span class="line">    config = load_config()</span><br><span class="line"></span><br><span class="line">    setup_logging()  <span class="comment"># 设置日志</span></span><br><span class="line">    train_loader = DataLoader(get_train_data(), batch_size=config[<span class="string">&#x27;batch_size&#x27;</span>], shuffle=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 初始化模型、优化器、损失函数</span></span><br><span class="line">    model = MyModel().to(config[<span class="string">&#x27;device&#x27;</span>])</span><br><span class="line">    optimizer = torch.optim.Adam(model.parameters(), lr=config[<span class="string">&#x27;learning_rate&#x27;</span>])</span><br><span class="line">    criterion = torch.nn.CrossEntropyLoss()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> epoch <span class="keyword">in</span> <span class="built_in">range</span>(config[<span class="string">&#x27;epochs&#x27;</span>]):</span><br><span class="line">        train_one_epoch(model, train_loader, optimizer, criterion, epoch, config[<span class="string">&#x27;device&#x27;</span>])</span><br><span class="line">        <span class="comment"># 训练过程中的其他操作，例如保存模型、打印日志等</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    train()</span><br></pre></td></tr></table></figure>
+<h4 id="scripts-test-py"><a href="#scripts-test-py" class="headerlink" title="scripts/test.py"></a><code>scripts/test.py</code></h4><ul>
+<li>用于评估训练好的模型。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># scripts/test.py</span></span><br><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">from</span> torch.utils.data <span class="keyword">import</span> DataLoader</span><br><span class="line"><span class="keyword">from</span> models.model <span class="keyword">import</span> MyModel</span><br><span class="line"><span class="keyword">from</span> data.utils <span class="keyword">import</span> get_test_data</span><br><span class="line"><span class="keyword">from</span> utils.evaluation <span class="keyword">import</span> evaluate_model</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">test</span>():</span><br><span class="line">    test_loader = DataLoader(get_test_data(), batch_size=<span class="number">32</span>)</span><br><span class="line">    model = MyModel()</span><br><span class="line">    model.load_state_dict(torch.load(<span class="string">&#x27;checkpoints/model.pth&#x27;</span>))  <span class="comment"># 加载训练好的模型</span></span><br><span class="line">    model.<span class="built_in">eval</span>()  <span class="comment"># 设置为评估模式</span></span><br><span class="line">    evaluate_model(model, test_loader)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    test()</span><br></pre></td></tr></table></figure>
+<h4 id="scripts-predict-py"><a href="#scripts-predict-py" class="headerlink" title="scripts/predict.py"></a><code>scripts/predict.py</code></h4><ul>
+<li>用于加载训练好的模型进行推理。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># scripts/predict.py</span></span><br><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">from</span> models.model <span class="keyword">import</span> MyModel</span><br><span class="line"><span class="keyword">from</span> utils.config <span class="keyword">import</span> load_config</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">predict</span>(<span class="params">input_data</span>):</span><br><span class="line">    model = MyModel()</span><br><span class="line">    model.load_state_dict(torch.load(<span class="string">&#x27;checkpoints/model.pth&#x27;</span>))</span><br><span class="line">    model.<span class="built_in">eval</span>()</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">with</span> torch.no_grad():</span><br><span class="line">        output = model(input_data)</span><br><span class="line">    <span class="keyword">return</span> output</span><br></pre></td></tr></table></figure>
+<h3 id="4-utils-辅助工具"><a href="#4-utils-辅助工具" class="headerlink" title="4. utils/: 辅助工具"></a>4. <code>utils/</code>: 辅助工具</h3><p>该文件夹包含了训练过程中常用的工具函数，如训练过程、评估、日志记录等。</p>
+<h4 id="utils-train-utils-py"><a href="#utils-train-utils-py" class="headerlink" title="utils/train_utils.py"></a><code>utils/train_utils.py</code></h4><ul>
+<li>包含训练过程中常用的工具函数，如每轮训练的实现。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># utils/train_utils.py</span></span><br><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> logging</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">train_one_epoch</span>(<span class="params">model, dataloader, optimizer, criterion, epoch, device</span>):</span><br><span class="line">    model.train()  <span class="comment"># 设置模型为训练模式</span></span><br><span class="line">    running_loss = <span class="number">0.0</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i, (inputs, labels) <span class="keyword">in</span> <span class="built_in">enumerate</span>(dataloader):</span><br><span class="line">        inputs, labels = inputs.to(device), labels.to(device)</span><br><span class="line"></span><br><span class="line">        optimizer.zero_grad()  <span class="comment"># 清空梯度</span></span><br><span class="line">        outputs = model(inputs)  <span class="comment"># 前向传播</span></span><br><span class="line"></span><br><span class="line">        loss = criterion(outputs, labels)  <span class="comment"># 计算损失</span></span><br><span class="line">        loss.backward()  <span class="comment"># 反向传播</span></span><br><span class="line">        optimizer.step()  <span class="comment"># 更新参数</span></span><br><span class="line"></span><br><span class="line">        running_loss += loss.item()</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> i % <span class="number">100</span> == <span class="number">99</span>:  <span class="comment"># 每 100 次迭代打印一次日志</span></span><br><span class="line">            logging.info(<span class="string">f&quot;[Epoch <span class="subst">&#123;epoch+<span class="number">1</span>&#125;</span>, Step <span class="subst">&#123;i+<span class="number">1</span>&#125;</span>] Loss: <span class="subst">&#123;running_loss / <span class="number">100</span>&#125;</span>&quot;</span>)</span><br><span class="line">            running_loss = <span class="number">0.0</span></span><br></pre></td></tr></table></figure>
+<h4 id="utils-evaluation-py"><a href="#utils-evaluation-py" class="headerlink" title="utils/evaluation.py"></a><code>utils/evaluation.py</code></h4><ul>
+<li>用于计算模型的评估指标（如准确率、损失等）。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># utils/evaluation.py</span></span><br><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">evaluate_model</span>(<span class="params">model, dataloader</span>):</span><br><span class="line">    model.<span class="built_in">eval</span>()  <span class="comment"># 设置为评估模式</span></span><br><span class="line">    correct = <span class="number">0</span></span><br><span class="line">    total = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">with</span> torch.no_grad():  <span class="comment"># 不计算梯度</span></span><br><span class="line">        <span class="keyword">for</span> inputs, labels <span class="keyword">in</span> dataloader:</span><br><span class="line">            outputs = model(inputs)</span><br><span class="line">            _, predicted = torch.<span class="built_in">max</span>(outputs, <span class="number">1</span>)</span><br><span class="line">            total += labels.size(<span class="number">0</span>)</span><br><span class="line">            correct += (predicted == labels).<span class="built_in">sum</span>().item()</span><br><span class="line"></span><br><span class="line">    accuracy = <span class="number">100</span> * correct / total</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;Accuracy: <span class="subst">&#123;accuracy:<span class="number">.2</span>f&#125;</span>%&quot;</span>)</span><br></pre></td></tr></table></figure>
+<h4 id="utils-config-py"><a href="#utils-config-py" class="headerlink" title="utils/config.py"></a><code>utils/config.py</code></h4><ul>
+<li>用于加载配置文件，读取超参数和路径等信息。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># utils/config.py</span></span><br><span class="line"><span class="keyword">import</span> yaml</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">load_config</span>():</span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;config/config.yaml&quot;</span>, <span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> file:</span><br><span class="line">        config = yaml.load(file, Loader=yaml.FullLoader)</span><br><span class="line">    <span class="keyword">return</span> config</span><br></pre></td></tr></table></figure>
+<h3 id="5-config-config-yaml-配置文件"><a href="#5-config-config-yaml-配置文件" class="headerlink" title="5. config/config.yaml: 配置文件"></a>5. <code>config/config.yaml</code>: 配置文件</h3><p>该文件用于配置项目的超参数、路径等。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># config/config.yaml</span></span><br><span class="line"><span class="attr">batch_size:</span> <span class="number">32</span></span><br><span class="line"><span class="attr">learning_rate:</span> <span class="number">0.001</span></span><br><span class="line"><span class="attr">epochs:</span> <span class="number">10</span></span><br><span class="line"><span class="attr">device:</span> <span class="string">&quot;cuda&quot;</span>  <span class="comment"># 可以是 &quot;cpu&quot; 或 &quot;cuda&quot;</span></span><br></pre></td></tr></table></figure>
+<h3 id="6-requirements-txt-依赖库"><a href="#6-requirements-txt-依赖库" class="headerlink" title="6. requirements.txt: 依赖库"></a>6. <code>requirements.txt</code>: 依赖库</h3><p>列出项目所需的所有依赖包及其版本。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">torch==1.10.0</span><br><span class="line">torchvision==0.11.1</span><br><span class="line">PILLOW==8.3.1</span><br><span class="line">yaml==5.4.1</span><br></pre></td></tr></table></figure>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>这个项目结构为一个标准的深度学习项目提供了清晰的框架，涵盖了数据加载、模型定义、训练、评估和推理等各个环节。每个文件和文件夹都有明确的责任分工，能够有效地支持项目的可扩展性、维护性和清晰的代码管理。</p>
+<style>
+    .highlight-text {
+      background-color: #f0f8ff;         /* 设置背景色 */
+      border-radius: 4px;                /* 设置圆角 */
+      padding: 0 5px;                    /* 设置内边距，确保文本不与边框贴得太紧 */
+      box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);  /* 添加轻微的阴影 */
+      border: 2px solidrgb(0, 98, 133);         /* 添加边缘线，颜色为浅灰色，宽度为 2px */
+    }
+  </style>
+
+  <style>
+    .highlight-normal {
+      background-color: #fff8dc;         /* 设置浅黄色背景色 */
+      border-radius: 4px;                /* 设置圆角 */
+      padding: 0 5px;                    /* 设置内边距，确保文本不与边框贴得太紧 */
+      box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);  /* 添加轻微的阴影 */
+      border: 1px solid #f0e68c;         /* 添加浅黄色边缘线，颜色为浅黄色，宽度为 2px */
+    }
+  </style>
+
+  <style>
+    .bbox {
+      background-color: #f0f8ff;        /* 设置背景色为浅黄色 */
+      border-radius: 8px;               /* 设置圆角 */
+      padding: 10px;                    /* 设置内边距 */
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* 添加轻微的阴影 */
+      border: 2px solidrgb(126, 230, 206);        /* 设置浅黄色边框 */
+      display: block;                   /* 确保框体显示为块元素，独占一行 */
+      margin-top: 10px;                 /* 给框体添加顶部间距 */
+      font-family: "Times New Roman", Times, serif; /* 设置字体为 Times New Roman */
+    }
+  </style>
+
+
+  <style>
+    .yubox {
+      background-color:rgb(252, 252, 203);        /* 设置背景色为浅黄色 */
+      border-radius: 8px;               /* 设置圆角 */
+      padding: 10px;                    /* 设置内边距 */
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* 添加轻微的阴影 */
+      border: 2px solidrgb(126, 230, 206);        /* 设置浅黄色边框 */
+      display: block;                   /* 确保框体显示为块元素，独占一行 */
+      margin-top: 10px;                 /* 给框体添加顶部间距 */
+      font-family: "Times New Roman", Times, serif; /* 设置字体为 Times New Roman */
+    }
+  </style></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://example.com">yuyu</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2025/11/05/post8/">http://example.com/2025/11/05/post8/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="http://example.com" target="_blank">yuyu</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E4%BB%A3%E7%A0%81/">代码</a></div><div class="post-share"><div class="social-share" data-image="https://pic4.zhimg.com/v2-94b8e424e313f6351b185f8f572ef271_r.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/2025/10/19/post7/" title="【论文阅读】：TME-guided deep learning predicts chemotherapy and immunotherapy response in gastric cancer with attention-enhanced residual Swin Transformer"><img class="cover" src="https://pic1.zhimg.com/v2-c49dda70ee82730ec6f2c46f58df84e4_r.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">【论文阅读】：TME-guided deep learning predicts chemotherapy and immunotherapy response in gastric cancer with attention-enhanced residual Swin Transformer</div></div><div class="info-2"><div class="info-item-1">        本论文在论文分享会中分享，点击查看论文PPT 👆                ⭐论文信息   文献类型：Cell 子刊    发表刊物：Cell Reports Medicine   发表时间：2025   发表单位：美国纽约布法罗大学等    ⭐summary第一句话：任务背景：辅助化疗和免疫检查点抑制剂已被证明对胃癌有持久的抗肿瘤作用。但目前缺乏有效的生物标志物，（无法准确预测哪些患者会真正从这些治疗中获益）。这限制了个体化治疗的发展。 第二句话：本文方法与任务：我们提出了一种注意力增强的残差Swin...</div></div></div></a></nav><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="gitalk-container"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/yu.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">yuyu</div><div class="author-info-description">欢迎来到yuyu的个人博客</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">9</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">19</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/gityuyuhub" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:2743342512@qq.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">如你所见，这是我的博客，相信在这些文章中，你会找到你想要的。This is Yuyu</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A0%87%E5%87%86AI%E5%B7%A5%E7%A8%8B%E6%A1%86%E6%9E%B6%E6%96%87%E6%A1%A3"><span class="toc-number">1.</span> <span class="toc-text">标准AI工程框架文档</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84"><span class="toc-number">1.1.</span> <span class="toc-text">项目文件结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%84%E6%96%87%E4%BB%B6%E5%A4%B9%E5%8F%8A%E6%96%87%E4%BB%B6%E8%AF%B4%E6%98%8E"><span class="toc-number">1.2.</span> <span class="toc-text">各文件夹及文件说明</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-data-%E6%95%B0%E6%8D%AE%E7%9B%B8%E5%85%B3"><span class="toc-number">1.2.1.</span> <span class="toc-text">1. data&#x2F;: 数据相关</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#data-raw"><span class="toc-number">1.2.1.1.</span> <span class="toc-text">data&#x2F;raw&#x2F;</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#data-processed"><span class="toc-number">1.2.1.2.</span> <span class="toc-text">data&#x2F;processed&#x2F;</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#data-utils-py"><span class="toc-number">1.2.1.3.</span> <span class="toc-text">data&#x2F;utils.py</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-models-%E6%A8%A1%E5%9E%8B%E7%9B%B8%E5%85%B3"><span class="toc-number">1.2.2.</span> <span class="toc-text">2. models&#x2F;: 模型相关</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#models-model-py"><span class="toc-number">1.2.2.1.</span> <span class="toc-text">models&#x2F;model.py</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#models-loss-py"><span class="toc-number">1.2.2.2.</span> <span class="toc-text">models&#x2F;loss.py</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-scripts-%E8%84%9A%E6%9C%AC"><span class="toc-number">1.2.3.</span> <span class="toc-text">3. scripts&#x2F;: 脚本</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#scripts-train-py"><span class="toc-number">1.2.3.1.</span> <span class="toc-text">scripts&#x2F;train.py</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#scripts-test-py"><span class="toc-number">1.2.3.2.</span> <span class="toc-text">scripts&#x2F;test.py</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#scripts-predict-py"><span class="toc-number">1.2.3.3.</span> <span class="toc-text">scripts&#x2F;predict.py</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-utils-%E8%BE%85%E5%8A%A9%E5%B7%A5%E5%85%B7"><span class="toc-number">1.2.4.</span> <span class="toc-text">4. utils&#x2F;: 辅助工具</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#utils-train-utils-py"><span class="toc-number">1.2.4.1.</span> <span class="toc-text">utils&#x2F;train_utils.py</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#utils-evaluation-py"><span class="toc-number">1.2.4.2.</span> <span class="toc-text">utils&#x2F;evaluation.py</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#utils-config-py"><span class="toc-number">1.2.4.3.</span> <span class="toc-text">utils&#x2F;config.py</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-config-config-yaml-%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-number">1.2.5.</span> <span class="toc-text">5. config&#x2F;config.yaml: 配置文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-requirements-txt-%E4%BE%9D%E8%B5%96%E5%BA%93"><span class="toc-number">1.2.6.</span> <span class="toc-text">6. requirements.txt: 依赖库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">1.2.7.</span> <span class="toc-text">总结</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-post-series"><div class="item-headline"><i class="fa-solid fa-layer-group"></i><span>系列文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/11/05/post8/" title="【AI生成】：如何标准地写一个AI工程文件夹？"><img src="https://pic4.zhimg.com/v2-94b8e424e313f6351b185f8f572ef271_r.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【AI生成】：如何标准地写一个AI工程文件夹？"></a><div class="content"><a class="title" href="/2025/11/05/post8/" title="【AI生成】：如何标准地写一个AI工程文件夹？">【AI生成】：如何标准地写一个AI工程文件夹？</a><time datetime="2025-11-05T06:20:17.000Z" title="发表于 2025-11-05 14:20:17">2025-11-05</time></div></div></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/11/05/post8/" title="【AI生成】：如何标准地写一个AI工程文件夹？"><img src="https://pic4.zhimg.com/v2-94b8e424e313f6351b185f8f572ef271_r.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【AI生成】：如何标准地写一个AI工程文件夹？"/></a><div class="content"><a class="title" href="/2025/11/05/post8/" title="【AI生成】：如何标准地写一个AI工程文件夹？">【AI生成】：如何标准地写一个AI工程文件夹？</a><time datetime="2025-11-05T06:20:17.000Z" title="发表于 2025-11-05 14:20:17">2025-11-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/10/19/post7/" title="【论文阅读】：TME-guided deep learning predicts chemotherapy and immunotherapy response in gastric cancer with attention-enhanced residual Swin Transformer"><img src="https://pic1.zhimg.com/v2-c49dda70ee82730ec6f2c46f58df84e4_r.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【论文阅读】：TME-guided deep learning predicts chemotherapy and immunotherapy response in gastric cancer with attention-enhanced residual Swin Transformer"/></a><div class="content"><a class="title" href="/2025/10/19/post7/" title="【论文阅读】：TME-guided deep learning predicts chemotherapy and immunotherapy response in gastric cancer with attention-enhanced residual Swin Transformer">【论文阅读】：TME-guided deep learning predicts chemotherapy and immunotherapy response in gastric cancer with attention-enhanced residual Swin Transformer</a><time datetime="2025-10-19T06:20:17.000Z" title="发表于 2025-10-19 14:20:17">2025-10-19</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/08/24/post6/" title="【论文阅读】：Semantic-Aware Representation Blending for Multi-Label Image Recognition with Partial Labels"><img src="https://picx.zhimg.com/v2-31af717d5ebecb7d19dd56b65383af7f_1440w.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【论文阅读】：Semantic-Aware Representation Blending for Multi-Label Image Recognition with Partial Labels"/></a><div class="content"><a class="title" href="/2025/08/24/post6/" title="【论文阅读】：Semantic-Aware Representation Blending for Multi-Label Image Recognition with Partial Labels">【论文阅读】：Semantic-Aware Representation Blending for Multi-Label Image Recognition with Partial Labels</a><time datetime="2025-08-24T06:20:17.000Z" title="发表于 2025-08-24 14:20:17">2025-08-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/04/21/post5/" title="【论文阅读】：Med-2E3：A 2D-Enhanced 3D Medical Multimodal Large Language Model"><img src="https://pic1.zhimg.com/v2-9efa9909ceaf3f5874aa9de8c290610e_1440w.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【论文阅读】：Med-2E3：A 2D-Enhanced 3D Medical Multimodal Large Language Model"/></a><div class="content"><a class="title" href="/2025/04/21/post5/" title="【论文阅读】：Med-2E3：A 2D-Enhanced 3D Medical Multimodal Large Language Model">【论文阅读】：Med-2E3：A 2D-Enhanced 3D Medical Multimodal Large Language Model</a><time datetime="2025-04-20T17:57:17.000Z" title="发表于 2025-04-21 01:57:17">2025-04-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/16/post4/" title="【技术篇】BCE or CE? 多标签 还是 多分类？"><img src="https://picx.zhimg.com/v2-701cefaa24bd17aa93e71ae007e23f03_1440w.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【技术篇】BCE or CE? 多标签 还是 多分类？"/></a><div class="content"><a class="title" href="/2025/03/16/post4/" title="【技术篇】BCE or CE? 多标签 还是 多分类？">【技术篇】BCE or CE? 多标签 还是 多分类？</a><time datetime="2025-03-15T16:54:00.000Z" title="发表于 2025-03-16 00:54:00">2025-03-16</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(https://pic4.zhimg.com/v2-94b8e424e313f6351b185f8f572ef271_r.jpg);"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2025 By yuyu</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.3.3</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"><script>(() => {
+  const loadMathjax = () => {
+    if (!window.MathJax) {
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          tags: 'none',
+        },
+        chtml: {
+          scale: 1.1
+        },
+        options: {
+          enableMenu: true,
+          renderActions: {
+            findScript: [10, doc => {
+              for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+                const display = !!node.type.match(/; *mode=display/)
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+                const text = document.createTextNode('')
+                node.parentNode.replaceChild(text, node)
+                math.start = {node: text, delim: '', n: 0}
+                math.end = {node: text, delim: '', n: 0}
+                doc.math.push(math)
+              }
+            }, '']
+          }
+        }
+      }
+
+      const script = document.createElement('script')
+      script.src = 'https://cdn.jsdelivr.net/npm/mathjax/es5/tex-mml-chtml.min.js'
+      script.id = 'MathJax-script'
+      script.async = true
+      document.head.appendChild(script)
+    } else {
+      MathJax.startup.document.state(0)
+      MathJax.texReset()
+      MathJax.typesetPromise()
+    }
+  }
+
+  btf.addGlobalFn('encrypt', loadMathjax, 'mathjax')
+  window.pjax ? loadMathjax() : window.addEventListener('load', loadMathjax)
+})()</script><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const commentCount = n => {
+    const isCommentCount = document.querySelector('#post-meta .gitalk-comment-count')
+    if (isCommentCount) {
+      isCommentCount.textContent= n
+    }
+  }
+
+  const initGitalk = (el, path) => {
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGitalk = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+
+    const gitalk = new Gitalk({
+      clientID: 'Ov23lienmr7axdYseqeC',
+      clientSecret: 'b7f1b4e555108e1113715eb05f7527c6d1ad667d',
+      repo: 'gityuyuhub.github.io',
+      owner: 'gityuyuhub',
+      admin: ['gityuyuhub'],
+      updateCountCallback: commentCount,
+      ...option,
+      id: isShuoshuo ? path : (option && option.id) || '5cd3e07f6fd5882a218a8b07bb884129'
+    })
+
+    gitalk.render('gitalk-container')
+  }
+
+  const loadGitalk = async(el, path) => {
+    if (typeof Gitalk === 'function') initGitalk(el, path)
+    else {
+      await btf.getCSS('https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.css')
+      await btf.getScript('https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js')
+      initGitalk(el, path)
+    }
+  }
+
+  if (isShuoshuo) {
+    'Gitalk' === 'Gitalk'
+      ? window.shuoshuoComment = { loadComment: loadGitalk }
+      : window.loadOtherComment = loadGitalk
+    return
+  }
+
+  if ('Gitalk' === 'Gitalk' || !true) {
+    if (true) btf.loadComment(document.getElementById('gitalk-container'), loadGitalk)
+    else loadGitalk()
+  } else {
+    window.loadOtherComment = loadGitalk
+  }
+})()</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
