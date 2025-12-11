@@ -1,0 +1,543 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>【论文阅读】：MedKlip：Medical Knowledge Enhanced Language-Image  Pre-Training for X-ray Diagnosis | yuyu</title><meta name="author" content="yuyu"><meta name="copyright" content="yuyu"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="本论文在JC CLUB中分享，点击查看论文PPT 👆                ⭐论文信息   文献类型：CCFA    发表刊物：ICCV   发表时间：2023   发表单位：上海交通大学、上海AI lab    ⭐Abstract第一句话：一句话概括本文贡献：本文旨在利用放射科日常实践中产生的成对图像—文本报告，引入领域特定知识，以增强医学视觉-语言预训练（VLP）模型">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【论文阅读】：MedKlip：Medical Knowledge Enhanced Language-Image  Pre-Training for X-ray Diagnosis">
+<meta property="og:url" content="http://example.com/2025/12/11/post9/index.html">
+<meta property="og:site_name" content="yuyu">
+<meta property="og:description" content="本论文在JC CLUB中分享，点击查看论文PPT 👆                ⭐论文信息   文献类型：CCFA    发表刊物：ICCV   发表时间：2023   发表单位：上海交通大学、上海AI lab    ⭐Abstract第一句话：一句话概括本文贡献：本文旨在利用放射科日常实践中产生的成对图像—文本报告，引入领域特定知识，以增强医学视觉-语言预训练（VLP）模型">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pica.zhimg.com/v2-fa99c36ab8d889eb688fd3b67b4fc448_1440w.jpg">
+<meta property="article:published_time" content="2025-12-11T06:20:17.000Z">
+<meta property="article:modified_time" content="2025-12-11T11:31:04.108Z">
+<meta property="article:author" content="yuyu">
+<meta property="article:tag" content="知识增强">
+<meta property="article:tag" content="多模态细粒度对齐">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pica.zhimg.com/v2-fa99c36ab8d889eb688fd3b67b4fc448_1440w.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "【论文阅读】：MedKlip：Medical Knowledge Enhanced Language-Image  Pre-Training for X-ray Diagnosis",
+  "url": "http://example.com/2025/12/11/post9/",
+  "image": "https://pica.zhimg.com/v2-fa99c36ab8d889eb688fd3b67b4fc448_1440w.jpg",
+  "datePublished": "2025-12-11T06:20:17.000Z",
+  "dateModified": "2025-12-11T11:31:04.108Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "yuyu",
+      "url": "http://example.com/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/v.png"><link rel="canonical" href="http://example.com/2025/12/11/post9/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '【论文阅读】：MedKlip：Medical Knowledge Enhanced Language-Image  Pre-Training for X-ray Diagnosis',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="web_bg" style="background-image: url(https://pic3.zhimg.com/v2-226e577e525f24d3e228737bbd0664a6_r.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/yu.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">10</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">21</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" target="_blank" rel="noopener" href="https://faculty.ustc.edu.cn/IPlab/zh_CN/more/655343/jsjjgd/index.htm"><i class="fa-fw fas fa-flask"></i><span> 实验室</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 档案</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="/my-daily/"><i class="fa-fw fas fa-calendar-day"></i><span> 我的日常</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://pica.zhimg.com/v2-fa99c36ab8d889eb688fd3b67b4fc448_1440w.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="https://img0.baidu.com/it/u=3750635231,1396466790&amp;fm=253&amp;fmt=auto&amp;app=120&amp;f=JPEG?w=800&amp;h=800" alt="Logo"><span class="site-name">yuyu</span></a><a class="nav-page-title" href="/"><span class="site-name">【论文阅读】：MedKlip：Medical Knowledge Enhanced Language-Image  Pre-Training for X-ray Diagnosis</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" target="_blank" rel="noopener" href="https://faculty.ustc.edu.cn/IPlab/zh_CN/more/655343/jsjjgd/index.htm"><i class="fa-fw fas fa-flask"></i><span> 实验室</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 档案</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="/my-daily/"><i class="fa-fw fas fa-calendar-day"></i><span> 我的日常</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">【论文阅读】：MedKlip：Medical Knowledge Enhanced Language-Image  Pre-Training for X-ray Diagnosis</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-12-11T06:20:17.000Z" title="发表于 2025-12-11 14:20:17">2025-12-11</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-12-11T11:31:04.108Z" title="更新于 2025-12-11 19:31:04">2025-12-11</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h2 style="text-align: center; font-size: 24px; font-weight: bold; margin-top: 14px; overflow: hidden; white-space: nowrap;">
+  <a href="/sucai/ICCV-2023-MedKlip.pdf" style="text-decoration: none; color:rgb(164, 113, 236); display: inline-block; animation: scrollText 10s linear infinite;">
+    本论文在JC CLUB中分享，点击查看论文PPT 👆
+  </a>
+</h2>
+
+
+
+<figure style="text-align:center;">
+    <img src="/sucai/lunwen6/lunwen6.png" style="width: 85%; height: auto;">
+</figure>
+
+<h2 id="⭐论文信息"><a href="#⭐论文信息" class="headerlink" title="⭐论文信息"></a>⭐论文信息</h2><div style="display: flex; flex-wrap: wrap;">
+  <div style="width: 50%; padding: 10px; font-weight: bold;">文献类型：CCFA </div>
+  <div style="width: 50%; padding: 10px; font-weight: bold;">发表刊物：ICCV</div>
+  <div style="width: 50%; padding: 10px; font-weight: bold;">发表时间：2023</div>
+  <div style="width: 50%; padding: 10px; font-weight: bold;">发表单位：上海交通大学、上海AI lab</div>
+</div>
+
+
+<h2 id="⭐Abstract"><a href="#⭐Abstract" class="headerlink" title="⭐Abstract"></a>⭐Abstract</h2><p><strong>第一句话：一句话概括本文贡献</strong>：本文旨在利用放射科日常实践中产生的成对<span style="color:red;">图像—文本报告</span>，引入<span style="color:red;">领域特定知识</span>，以增强医学视觉-语言预训练（VLP）模型的能力。</p>
+<p><strong>第二句话：创新一</strong>：第一，与直接处理原始报告的现有工作不同，我们设计了一种<span style="color:red;">新颖的三元组抽取模块</span>，用于提取与医学相关的信息，<span style="color:red;">从而避免自然语言语法所带来的不必要复杂性，并强化监督信号</span>。</p>
+<p><strong>第三句话：创新二</strong>：第二，我们提出了一种结合知识库实体翻译的<span style="color:red;">三元组编码模块</span>，通过查询医学知识库充分利用<span style="color:red;">丰富的领域知识</span>，并在语言嵌入空间中隐式建模各医学实体之间的关系。</p>
+<p><strong>第四句话：创新三</strong>：第三，我们采用基于 Transformer 的多模态融合模型，<span style="color:red;">在图像补丁（patch）层面实现实体描述与视觉信号的空间对齐</span>，从而赋予模型医学诊断的能力。</p>
+<p><strong>第五句话</strong>：第四，我们在多个公开数据集上对所提出的架构进行了系统而全面的实验验证。</p>
+<p>**第六句话：在零样本和微调两种设置下，与现有方法相比，我们的模型在疾病分类和疾病定位等任务上均展现出优异的性能。</p>
+<h2 id="⭐Introduction"><a href="#⭐Introduction" class="headerlink" title="⭐Introduction"></a>⭐Introduction</h2><p><strong>段落一：【背景写作】：计算机辅助诊断进入到多模态大模型时代</strong>：</p>
+<ul>
+<li><p>随着深度学习的快速发展，大量研究被提出以推动<strong>医学领域的计算机辅助诊断</strong>。</p>
+</li>
+<li><p>【小模型的缺点】：尽管取得了巨大进展，这类模型通常被训练用于识别或分割预先定义的有限解剖结构或疾病类别；<code>一旦出现新的感兴趣疾病，就必须进行昂贵的数据标注与模型重新训练，从根本上限制了其实际应用价值</code>。</p>
+</li>
+<li><p>【引入多模态和放射学报告】：作为替代方案，近期研究开始考虑使用来源于临床日常实践的<code>大规模多模态语料库进行模型训练</code>，例如最常见的就是包含 X 线影像及其对应放射学报告的数据集。</p>
+</li>
+</ul>
+<p><strong>段落二：【挖坑写作】：医学视觉语言模型的挑战</strong>：</p>
+<ul>
+<li><p>【本文任务】：本文对<strong>医学领域</strong>中的<code>视觉语言表征</code>学习进行了初步探索，目标是实现更优的零样本疾病诊断（分类）和疾病/视觉定位。</p>
+</li>
+<li><p>【阐述挑战】：毫无疑问，这类任务在计算机视觉领域也已被广泛研究，并在近几年基础模型的发展上取得了显著进展，例如 CLIP 、ALBEF 、BLIP 等。然而，要在医学场景中实现同样的目标，仍需解决一系列不同的挑战，这也需要整个社区的共同努力</p>
+</li>
+<li><p>【坑一】<strong>数据可得性问题</strong>——在通用计算机视觉任务中，训练基础模型通常需要上百万对图文样本，而在医学领域，往往只能获得几十万对左右的图像–文本配对数据 [31]，<code>有限的数据规模使得语言模型难以充分理解自由文本形式的报告</code> 。</p>
+</li>
+<li><p>【坑二】<strong>细粒度领域知识</strong>：计算机辅助诊断中所处理的问题天然属于<code>细粒度范畴</code>，需要区分精细的医学概念以理解疾病本身，因此<code>领域知识至关重要</code>。</p>
+</li>
+<li><p>【坑三】<strong>可解释性</strong>：鲁棒性同样关键，因此模型最好具备<code>可解释性</code>，即<code>诊断结果应伴随相应的视觉定位，以帮助放射科医生理解系统的决策过程</code>，并在医生与智能系统之间建立信任。</p>
+</li>
+</ul>
+<p><strong>段落三：【填坑写作】：介绍本文方法</strong></p>
+<ul>
+<li>【核心坑】现有的医学视觉-语言预训练（VLP）工作 通常采用一种直接的训练范式，即<strong>将原始报告与图像扫描匹配，忽略了医学领域的先验知识</strong>。</li>
+</ul>
+<figure style="text-align:center;">
+    <img src="/sucai/lunwen6/f1.png" style="width: 70%; height: auto;">
+</figure>
+
+<ul>
+<li><p>【填坑一】我们提出了一个三元组提取模块，用于从原始报告中<code>提取有用的医学实体</code>，并将每个报告简化为一组三元组，表示为 {实体, 位置, 存在性}。<code>将报告分解为三元组可以有效表示报告内容，同时由于报告结构的先验知识，信息损失最小</code>。</p>
+</li>
+<li><p>【填坑二】其次，我们利用一个定义明确的医学词汇知识库，<code>将医学实体转化为细粒度的描述</code>，该知识库通常使用常见词汇解释疾病。通过对这些描述计算文本嵌入，可以隐式地在医学实体之间建立关系；</p>
+</li>
+<li><p>【填坑三】第三，我们将实体视为查询集合，并采用基于 Transformer 的架构，<code>将图像补丁与实体描述对齐，从而在实体层面提供明确的监督信号。</code>因此，我们可以通过空间热图的形式同时推断某些疾病的可能性，即<code>为可解释性提供粗略的定位</code>。</p>
+</li>
+</ul>
+<p><strong>段落四：实验性能涨点</strong></p>
+<ul>
+<li><p>我们在一个广泛使用的医学图像-报告数据集 MIMIC-CXR [31] 上对模型进行了预训练，并在多个公共基准数据集上对疾病诊断任务进行了严格评估</p>
+</li>
+<li><p>在不同疾病的零样本分类和定位任务中，我们的模型在不同图像分布下表现出最先进的性能，并且通过进一步微调，模型的性能仍显著超越了之前的模型。</p>
+</li>
+</ul>
+<h2 id="⭐methodology"><a href="#⭐methodology" class="headerlink" title="⭐methodology"></a>⭐methodology</h2><figure style="text-align:center;">
+    <img src="/sucai/lunwen6/f2.png" style="width: 80%; height: auto;">
+</figure>
+
+
+
+<h3 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h3><p><strong>数据</strong>: 假设我们有一个包含 $N$ 个样本的训练集：</p>
+<script type="math/tex; mode=display">
+D_{train} = \{(X_1, T_1), \dots, (X_N, T_N)\}</script><p>其中 $ X_i $ 是 X射线图像，$ T_i $ 是相应的医学报告。</p>
+<p><strong>任务</strong>: 该模型的输出包括:</p>
+<ul>
+<li>$ \hat{s}_i $: 这是预测的疾病发生概率，反映了患者是否可能患有输入中描述的疾病。</li>
+<li>$ \hat{m}_i $: 这是一个空间热图，指示了图像中可能与疾病相关的区域。</li>
+</ul>
+<script type="math/tex; mode=display">
+\hat{s}_i, \hat{m}_i = \Phi_{fusion}(\Phi_{visual}(X_i), \Phi_{textual}([description]))</script><ul>
+<li>$ X_i \in \mathbb{R}^{H \times W \times 3} $: 表示图像样本，其中 $ H $ 和 $ W $ 分别为图像的高度和宽度。</li>
+<li>$ \hat{s}_i \in [0, 1] $: 表示预测的疾病发生概率。</li>
+<li>$ \hat{m}_i \in \mathbb{R}^{H \times W \times 1} $: 表示预测的空间热图，其中每个像素的激活值指示可能与疾病相关的区域。</li>
+</ul>
+<h3 id="报告预处理"><a href="#报告预处理" class="headerlink" title="报告预处理"></a>报告预处理</h3><p>【填坑一】：我们提出了一个三元组提取模块，用于从原始报告中提取有用的医学实体，并将每个报告简化为一组三元组，表示为 {实体, 位置, 存在性}。将报告分解为三元组可以有效表示报告内容，同时由于报告结构的先验知识，信息损失最小。</p>
+<figure style="text-align:center;">
+    <img src="/sucai/lunwen6/f3.png" style="width: 30%; height: auto;">
+</figure>
+
+<p>医学关键字通过命名实体识别（NER）方法被提取和分类为“实体”或“位置”，NER模块还会为每个实体提供一个“存在性”标签，用来判断该实体是否存在于报告中。基于此，我们可以使用一组三元组形式表示，例如 {entity, position, exist}，以重新构造报告中的句子。因此，给定一个包含多个句子的报告 $T = \{s_1, s_2, \dots, s_M\}$，提取模块会独立处理每个句子，并从报告中构建一组三元组：</p>
+<script type="math/tex; mode=display">
+\Phi_{ex}(s_j) = \{entity_n, position_n, exist_n\}, n \in [0, t_j]</script><p>讨论：与自然语言处理中的通用文本相比，医学报告内容更加专业，并且通常在特定的词汇表内（大多数列在UMLS [5]中）。专门设计的NER方法在报告中表现出色。因此，在医学视觉-语言预训练中采用三元组提取操作，能够避免因理解语法带来的不必要复杂性，同时保证报告中的关键点信息。</p>
+<h3 id="知识增强的三元组编码"><a href="#知识增强的三元组编码" class="headerlink" title="知识增强的三元组编码"></a>知识增强的三元组编码</h3><p>【填坑二】其次，我们利用一个定义明确的医学词汇知识库，将医学实体转化为细粒度的描述，该知识库通常使用常见词汇解释疾病。通过对这些描述计算文本嵌入，可以隐式地在医学实体之间建立关系；</p>
+<figure style="text-align:center;">
+    <img src="/sucai/lunwen6/f4.png" style="width: 30%; height: auto;">
+</figure>
+
+<p><strong>Exist 编码</strong>: 我们使用 $l \in \{0, 1, -1\}$, $l \in \{0, 1, -1\}$ 来表示其中的“存在性”，其中 $1$ 表示存在（True），$0$ 表示不存在（False），$-1$ 表示不确定。</p>
+<p><strong>Entity 编码</strong>: 我们通过查询一些容易访问的医学知识库来将其转换为详细描述，例如，Description([ “Pneumonia” ]) = “它是一种主要影响肺部的疾病……” 表现为不透明和胸腔积液……</p>
+<p>尽管这种转换方法简单，<strong>但将实体转化为描述对于更可置信的零样本诊断至关重要，因为它让一步将专业医学实体分解为不同疾病共享的基本属性性，促进模型对视觉数据进行更深入的理解</strong>。</p>
+<p><strong>Position 编码</strong>: 对于“位置”词汇，我们使用一个提示语句：“它位于 {位置}”来形成句子。最后，我们使用预训练的文本编码器 ClinicalBERT 来计算“实体”和“位置”的嵌入向量，并使用线性多层感知机（MLP）将嵌入映射到所需的类别：</p>
+<p>讨论：提取的实体是医学术语，只有具备医学背景的观众才能理解，而通过详细的描述丰富这些实体有助于模型深入理解疾病的视觉证据。这样的模式可以跨疾病进行泛化，因为许多属性描述通常是共享的，从而使得模型能够建立已见类之间的隐式关系，并理解未见类的描述。</p>
+<h3 id="融合模块"><a href="#融合模块" class="headerlink" title="融合模块"></a>融合模块</h3><p>【填坑三】第三，我们将实体视为查询集合，并采用基于 Transformer 的架构，将图像补丁与实体描述对齐，从而在实体层面提供明确的监督信号。因此，我们可以通过空间热图的形式同时推断某些疾病的可能性，即为可解释性提供粗略的定位。</p>
+<p>通过报告中的三元组，我们可以在实体级别对模型进行监督，而不是在整个报告级别进行监督。三元组中的“位置”和“存在性”部分可以自然地视为更细粒度的监督标签。</p>
+<figure style="text-align:center;">
+    <img src="/sucai/lunwen6/f5.png" style="width: 40%; height: auto;">
+</figure>
+
+<p>具体来说，我们采用基于 Transformer 的架构，使用实体的嵌入作为查询，代表地关注图像的嵌入，并输出实体的存在性和位置预测。</p>
+<script type="math/tex; mode=display">
+\hat{s}, \hat{p}, \hat{m} = \Phi_{fusion}(V, Q),</script><p>（就是把实体描述作为 query，图像嵌入作为 key 和 value，做一个交叉注重力机制，输出就是一个融合特征和一个注意力得分，再加个预测头，用融合特征分别预测实体的存在 $s$，实体的位置 $p$）</p>
+<p>讨论：采用 Transformer 解码器使得能够在图像的补丁级别计算实体与图像之间的对应关系。因此，图像特征 V 更适合下游的分割任务，并且每一层中的交叉注意力图的平均值可以直接用于零样本定位，为诊断<strong>提供可解释性</strong>。</p>
+<h3 id="推理"><a href="#推理" class="headerlink" title="推理"></a>推理</h3><p>在推理时，给定一张测试图像，我们可以直接推断出某些实体/疾病的存在性，并定位它们的视觉证据。</p>
+<p>具体来说，对于在实体查询集 $Q$ 中出现的实体，我们直接采用 $Q$ 中对应的元素；而对于那些<code>未见过的实体，我们用用户提供的简短描述替换该实体</code>，并将其作为一个额外的查询添加到实体查询集 $Q$ 中，类似于零样本推理。存在性输出 $\hat{s}$ 可以直接用于分类，目标实体与视觉特征之间的平均交叉注意力 $m$ 用于定位。</p>
+<h2 id="⭐Experiments"><a href="#⭐Experiments" class="headerlink" title="⭐Experiments"></a>⭐Experiments</h2><h3 id="实验数据"><a href="#实验数据" class="headerlink" title="实验数据"></a>实验数据</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>数据集</th>
+<th>描述</th>
+<th>任务</th>
+<th>数据集划分（训练/验证/测试）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MIMIC-CXR v2</td>
+<td>包含227k对图像-报告数据，来自65,379名患者，共377,110张图像。</td>
+<td>预训练</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>ChestX-ray14</td>
+<td>包含112,120张前视X射线图像，来自30,805名患者，标注14种常见疾病。</td>
+<td>分类</td>
+<td>0.8/0.1/0.1</td>
+</tr>
+<tr>
+<td>RSNA Pneumonia</td>
+<td>包含260k张前视X光图像，带有肺炎不透明斑块。</td>
+<td>分类</td>
+<td>0.6/0.2/0.2</td>
+</tr>
+<tr>
+<td>SIIM-ACR Pneumothorax</td>
+<td>包含12k张前视X光图像，带有气胸症状。</td>
+<td>分类</td>
+<td>0.6/0.2/0.2</td>
+</tr>
+<tr>
+<td>COVIDx CXR-2</td>
+<td>包含29,986张图像，来自16,648名患者，用于COVID-19诊断。</td>
+<td>分类</td>
+<td>0.7/0.2/0.1</td>
+</tr>
+<tr>
+<td>COVID Rural</td>
+<td>包含200+张胸部X光图像，带有分割肺部症状，用于COVID-19诊断。</td>
+<td>分类</td>
+<td>0.6/0.2/0.2</td>
+</tr>
+<tr>
+<td>Edema Severity</td>
+<td>包含6,524个例子，标注腹水肿严重度（0到3）。</td>
+<td>分类</td>
+<td>0.6/0.2/0.2</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="实施细节"><a href="#实施细节" class="headerlink" title="实施细节"></a>实施细节</h3><p>在<code>预训练阶段</code>，三元组提取模块和用于三元组编码的文本编码器都是固定的，而视觉编码器和融合模块则在图像-文本对上进行端到端训练。</p>
+<p>在<code>微调阶段</code>，我们采用初始化为图像编码器的ResNet50 [24]进行分类，并使用我们的预训练图像编码器初始化ResUNet [16]的编码器进行分割。</p>
+<p>我们与现有的多种最先进的医学图像-文本预训练方法进行比较，具体包括ConVIRT [68]、GLoRIA [25]、BioViL [6]和CheXzero [56]。由于ConVIRT和GLoRIA是在内部数据集上预训练的，为了公平比较，我们在MIMIC-CXR数据集上重新训练了它们的模型。对于BioViL，我们使用作者公开发布的模型。</p>
+<p>在<code>零-shot设置</code>下，我们使用BioViL [6]中提到的提示，并与最近的方法（CheXzero [56]）进行比较，后者在零-shot诊断能力上已被证明优于放射科医生。</p>
+<h3 id="实验一-零样本分类能力"><a href="#实验一-零样本分类能力" class="headerlink" title="实验一 零样本分类能力"></a>实验一 零样本分类能力</h3><p align="center">
+  <img src="/sucai/lunwen6/f6.png" width="70%">
+</p>
+
+<p><strong>已见疾病</strong>：们的模型将RSNA肺炎数据集的AUC得分从0.83提升至0.87，将SIIMACR气胸数据集的AUC得分从0.71提升至0.89，如表1所示。<code>这表明我们的方法能更好地处理医学中的多中心和多疾病数据分布</code>。</p>
+<p align="center">
+  <img src="/sucai/lunwen6/f7.png" width="70%">
+</p>
+
+<p><strong>未见疾病</strong>：COVID-19是一种新疾病，首次出现于2019年，2015年收集的MIMIC-CXR报告中没有涉及COVID-19的任何数据实体，因此它要求系统具备诊断真正未见疾病的能力。如表2所示，仅依赖疾病名称的现有方法在做出正确诊断时遇到困难。而我们提出的方法，<code>在引入医学知识后，即使用实体描述，可以理解训练集中未见过的复杂医学实体描述，并显著提高性能：AUC从0.66提升至0.74，ACC从0.59提升至0.70，证明了实体翻译对于未见疾病的诊断至关重要</code>。</p>
+<blockquote>
+<p>这里用COVID-19作为未见疾病的例子十分有趣，它的方法就算是没有见过COVID-19这个词，但是通过查询医学知识库，获得了COVID-19的描述，然后用这个描述去做诊断，结果效果还不错，强调<strong>知识增强</strong>的重要性。</p>
+</blockquote>
+<h3 id="实验二-零样本定位能力"><a href="#实验二-零样本定位能力" class="headerlink" title="实验二 零样本定位能力"></a>实验二 零样本定位能力</h3><p>除了简单的诊断外，<code>可解释性在医疗保健中同样至关重要，它可以提高机器学习系统的可靠性和可信度。在这里，我们考虑通过在预测中定位异常来提供可解释性</code>，并与现有方法进行比较:</p>
+<p align="center">
+  <img src="/sucai/lunwen6/f8.png" width="70%">
+</p>
+
+<p><strong>已见疾病</strong>：我们将指示游戏得分从0.83提升至0.87，检测召回率从0.85提升至0.87，检测精度从0.50提升至0.64，IOU从0.30提升至0.32，Dice系数从0.44提升至0.46。而在SIIM-ACR数据集(b表)上，气胸区域往往较薄且狭窄，定位其位置通常比不透明性定位更具挑战性，因此我们只考虑指示游戏得分、召回率和精度。类似地，我们的方法在这些指标上表现明显优于之前的方法。</p>
+<blockquote>
+<p>这里删指标有点意思，不好的指标我会删hh</p>
+</blockquote>
+<p align="center">
+  <img src="/sucai/lunwen6/f9.png" width="70%">
+</p>
+
+<p><strong>未见疾病</strong>：我们还对未见疾病——即COVID-19进行了零-shot基础定位实验，如表4所示。我们的模型在所有指标上均表现出一致的提升，例如，指示游戏得分从0.40提升至0.58。</p>
+<blockquote>
+<p>指示游戏：具体来说就是计算预测的热图与真实的分割掩码之间的重叠程度，衡量模型在定位异常区域方面的准确性。</p>
+</blockquote>
+<h3 id="实验三-微调分类能力"><a href="#实验三-微调分类能力" class="headerlink" title="实验三 微调分类能力"></a>实验三 微调分类能力</h3><p align="center">
+  <img src="/sucai/lunwen6/f10.png" width="70%">
+</p>
+
+<p>我们在四个不同的数据集上进行了实验，使用1%、10%和100%的数据进行微调，这与现有的工作一致。如表所示，我们的模型在所有数据集上展示了显著的AUC得分提升，反映出我们的预训练表示相比现有模型具有更高的质量。</p>
+<h3 id="实验四-微调分割能力"><a href="#实验四-微调分割能力" class="headerlink" title="实验四 微调分割能力"></a>实验四 微调分割能力</h3><p align="center">
+  <img src="/sucai/lunwen6/f11.png" width="70%">
+</p>
+
+<p>我们对三种不同疾病进行了分割的微调实验。我们选择了1%、10%和100%的数据进行微调。对于这三种具有不同图像分布的疾病，我们的方法在所有指标上都显著超越了现有的最先进方法，尤其是在<code>低数据量的情况下</code>。</p>
+<h3 id="实验五-微调多分类能力（分级任务）"><a href="#实验五-微调多分类能力（分级任务）" class="headerlink" title="实验五 微调多分类能力（分级任务）"></a>实验五 微调多分类能力（分级任务）</h3><p align="center">
+  <img src="/sucai/lunwen6/f12.png" width="70%">
+</p>
+
+<p>此外，疾病严重程度的分级也发挥着重要作用。在这里，我们采用我们的预训练特征，并将其用于多分类任务，0到3代表不同的严重程度级别。如表7所示，对于每个级别，AUC、F1和ACC得分是作为一个类别与其他类别进行计算的，例如，0与{1, 2, 3}比较。最终计算四个级别的宏观平均得分。在大多数严重程度级别上，我们的方法能够取得最佳结果。</p>
+<h2 id="⭐Conclusion"><a href="#⭐Conclusion" class="headerlink" title="⭐Conclusion"></a>⭐Conclusion</h2><p>本文提出一种医学知识增强型视觉 - 语言预训练（VLP）模型，核心工作包括三部分：<br>    1）通过<strong>三元组提取模块挖掘医疗相关三元组作为增强监督信号</strong>，简化原始报告并减少信息损失；<br>  2）将<strong>三元组实体转化为详细医学描述</strong>并经文本编码器嵌入，助力网络理解专家级医学知识；<br>    3）设计基于 Transformer 的结构实现<strong>局部区域对齐</strong>。</p>
+<p>实验验证表明，该模型在不同数据集和设置下表现优异，具备强零样本分类与定位能力（可应对未见疾病），微调后仍显著优于现有最先进方法，凸显其技术优越性。</p>
+<blockquote>
+<p>但是这个论文为什么不提供可视化实验呢，既然是局部对齐，感觉可视化一下注意力图会更好理解一些。</p>
+</blockquote>
+<style>
+    .highlight-text {
+      background-color: #f0f8ff;         /* 设置背景色 */
+      border-radius: 4px;                /* 设置圆角 */
+      padding: 0 5px;                    /* 设置内边距，确保文本不与边框贴得太紧 */
+      box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);  /* 添加轻微的阴影 */
+      border: 2px solidrgb(0, 98, 133);         /* 添加边缘线，颜色为浅灰色，宽度为 2px */
+    }
+  </style>
+
+  <style>
+    .highlight-normal {
+      background-color: #fff8dc;         /* 设置浅黄色背景色 */
+      border-radius: 4px;                /* 设置圆角 */
+      padding: 0 5px;                    /* 设置内边距，确保文本不与边框贴得太紧 */
+      box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);  /* 添加轻微的阴影 */
+      border: 1px solid #f0e68c;         /* 添加浅黄色边缘线，颜色为浅黄色，宽度为 2px */
+    }
+  </style>
+
+  <style>
+    .bbox {
+      background-color: #f0f8ff;        /* 设置背景色为浅黄色 */
+      border-radius: 8px;               /* 设置圆角 */
+      padding: 10px;                    /* 设置内边距 */
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* 添加轻微的阴影 */
+      border: 2px solidrgb(126, 230, 206);        /* 设置浅黄色边框 */
+      display: block;                   /* 确保框体显示为块元素，独占一行 */
+      margin-top: 10px;                 /* 给框体添加顶部间距 */
+      font-family: "Times New Roman", Times, serif; /* 设置字体为 Times New Roman */
+    }
+  </style>
+
+
+  <style>
+    .yubox {
+      background-color:rgb(252, 252, 203);        /* 设置背景色为浅黄色 */
+      border-radius: 8px;               /* 设置圆角 */
+      padding: 10px;                    /* 设置内边距 */
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* 添加轻微的阴影 */
+      border: 2px solidrgb(126, 230, 206);        /* 设置浅黄色边框 */
+      display: block;                   /* 确保框体显示为块元素，独占一行 */
+      margin-top: 10px;                 /* 给框体添加顶部间距 */
+      font-family: "Times New Roman", Times, serif; /* 设置字体为 Times New Roman */
+    }
+  </style></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://example.com">yuyu</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2025/12/11/post9/">http://example.com/2025/12/11/post9/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="http://example.com" target="_blank">yuyu</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E7%9F%A5%E8%AF%86%E5%A2%9E%E5%BC%BA/">知识增强</a><a class="post-meta__tags" href="/tags/%E5%A4%9A%E6%A8%A1%E6%80%81%E7%BB%86%E7%B2%92%E5%BA%A6%E5%AF%B9%E9%BD%90/">多模态细粒度对齐</a></div><div class="post-share"><div class="social-share" data-image="https://pica.zhimg.com/v2-fa99c36ab8d889eb688fd3b67b4fc448_1440w.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/2025/11/05/post8/" title="【AI生成】：如何标准地写一个AI工程文件夹？"><img class="cover" src="https://picx.zhimg.com/v2-701cefaa24bd17aa93e71ae007e23f03_1440w.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">【AI生成】：如何标准地写一个AI工程文件夹？</div></div><div class="info-2"><div class="info-item-1">好的，我会将前述的内容整理成一个完整的、详细的标准AI工程框架，并转化为一个 .md 格式的文档。这个文档将详细描述每个文件和文件夹的职责、代码结构和如何组织整个深度学习项目。  标准AI工程框架文档项目文件结构1234567891011121314151617181920212223242526272829303132project_name/│├── data/│   ├── raw/               # 原始数据（如果有的话）│   ├── processed/         # 处理后的数据│   └── utils.py           # 数据相关的工具函数（例如数据增强）│├── models/                # 模型相关│   ├── __init__.py        # 模型模块│   ├── model.py           # 模型的定义│   ├── layers.py          # 定义不同的神经网络层│   └── loss.py            # 损失函数│├── scripts/     ...</div></div></div></a></nav><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="gitalk-container"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/yu.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">yuyu</div><div class="author-info-description">欢迎来到yuyu的个人博客</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">10</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">21</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/gityuyuhub" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:2743342512@qq.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">如你所见，这是我的博客，相信在这些文章中，你会找到你想要的。This is Yuyu</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">
+  
+    本论文在JC CLUB中分享，点击查看论文PPT 👆
+  
+</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E2%AD%90%E8%AE%BA%E6%96%87%E4%BF%A1%E6%81%AF"><span class="toc-number">2.</span> <span class="toc-text">⭐论文信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E2%AD%90Abstract"><span class="toc-number">3.</span> <span class="toc-text">⭐Abstract</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E2%AD%90Introduction"><span class="toc-number">4.</span> <span class="toc-text">⭐Introduction</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E2%AD%90methodology"><span class="toc-number">5.</span> <span class="toc-text">⭐methodology</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0"><span class="toc-number">5.1.</span> <span class="toc-text">问题描述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8A%A5%E5%91%8A%E9%A2%84%E5%A4%84%E7%90%86"><span class="toc-number">5.2.</span> <span class="toc-text">报告预处理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9F%A5%E8%AF%86%E5%A2%9E%E5%BC%BA%E7%9A%84%E4%B8%89%E5%85%83%E7%BB%84%E7%BC%96%E7%A0%81"><span class="toc-number">5.3.</span> <span class="toc-text">知识增强的三元组编码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%9E%8D%E5%90%88%E6%A8%A1%E5%9D%97"><span class="toc-number">5.4.</span> <span class="toc-text">融合模块</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%A8%E7%90%86"><span class="toc-number">5.5.</span> <span class="toc-text">推理</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E2%AD%90Experiments"><span class="toc-number">6.</span> <span class="toc-text">⭐Experiments</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E6%95%B0%E6%8D%AE"><span class="toc-number">6.1.</span> <span class="toc-text">实验数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E6%96%BD%E7%BB%86%E8%8A%82"><span class="toc-number">6.2.</span> <span class="toc-text">实施细节</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E4%B8%80-%E9%9B%B6%E6%A0%B7%E6%9C%AC%E5%88%86%E7%B1%BB%E8%83%BD%E5%8A%9B"><span class="toc-number">6.3.</span> <span class="toc-text">实验一 零样本分类能力</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E4%BA%8C-%E9%9B%B6%E6%A0%B7%E6%9C%AC%E5%AE%9A%E4%BD%8D%E8%83%BD%E5%8A%9B"><span class="toc-number">6.4.</span> <span class="toc-text">实验二 零样本定位能力</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E4%B8%89-%E5%BE%AE%E8%B0%83%E5%88%86%E7%B1%BB%E8%83%BD%E5%8A%9B"><span class="toc-number">6.5.</span> <span class="toc-text">实验三 微调分类能力</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E5%9B%9B-%E5%BE%AE%E8%B0%83%E5%88%86%E5%89%B2%E8%83%BD%E5%8A%9B"><span class="toc-number">6.6.</span> <span class="toc-text">实验四 微调分割能力</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E4%BA%94-%E5%BE%AE%E8%B0%83%E5%A4%9A%E5%88%86%E7%B1%BB%E8%83%BD%E5%8A%9B%EF%BC%88%E5%88%86%E7%BA%A7%E4%BB%BB%E5%8A%A1%EF%BC%89"><span class="toc-number">6.7.</span> <span class="toc-text">实验五 微调多分类能力（分级任务）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E2%AD%90Conclusion"><span class="toc-number">7.</span> <span class="toc-text">⭐Conclusion</span></a></li></ol></div></div><div class="card-widget card-post-series"><div class="item-headline"><i class="fa-solid fa-layer-group"></i><span>系列文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/12/11/post9/" title="【论文阅读】：MedKlip：Medical Knowledge Enhanced Language-Image  Pre-Training for X-ray Diagnosis"><img src="https://pica.zhimg.com/v2-fa99c36ab8d889eb688fd3b67b4fc448_1440w.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【论文阅读】：MedKlip：Medical Knowledge Enhanced Language-Image  Pre-Training for X-ray Diagnosis"></a><div class="content"><a class="title" href="/2025/12/11/post9/" title="【论文阅读】：MedKlip：Medical Knowledge Enhanced Language-Image  Pre-Training for X-ray Diagnosis">【论文阅读】：MedKlip：Medical Knowledge Enhanced Language-Image  Pre-Training for X-ray Diagnosis</a><time datetime="2025-12-11T06:20:17.000Z" title="发表于 2025-12-11 14:20:17">2025-12-11</time></div></div></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/12/11/post9/" title="【论文阅读】：MedKlip：Medical Knowledge Enhanced Language-Image  Pre-Training for X-ray Diagnosis"><img src="https://pica.zhimg.com/v2-fa99c36ab8d889eb688fd3b67b4fc448_1440w.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【论文阅读】：MedKlip：Medical Knowledge Enhanced Language-Image  Pre-Training for X-ray Diagnosis"/></a><div class="content"><a class="title" href="/2025/12/11/post9/" title="【论文阅读】：MedKlip：Medical Knowledge Enhanced Language-Image  Pre-Training for X-ray Diagnosis">【论文阅读】：MedKlip：Medical Knowledge Enhanced Language-Image  Pre-Training for X-ray Diagnosis</a><time datetime="2025-12-11T06:20:17.000Z" title="发表于 2025-12-11 14:20:17">2025-12-11</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/11/05/post8/" title="【AI生成】：如何标准地写一个AI工程文件夹？"><img src="https://picx.zhimg.com/v2-701cefaa24bd17aa93e71ae007e23f03_1440w.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【AI生成】：如何标准地写一个AI工程文件夹？"/></a><div class="content"><a class="title" href="/2025/11/05/post8/" title="【AI生成】：如何标准地写一个AI工程文件夹？">【AI生成】：如何标准地写一个AI工程文件夹？</a><time datetime="2025-11-05T06:20:17.000Z" title="发表于 2025-11-05 14:20:17">2025-11-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/10/19/post7/" title="【论文阅读】：TME-guided deep learning predicts chemotherapy and immunotherapy response in gastric cancer with attention-enhanced residual Swin Transformer"><img src="https://picx.zhimg.com/v2-31af717d5ebecb7d19dd56b65383af7f_1440w.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【论文阅读】：TME-guided deep learning predicts chemotherapy and immunotherapy response in gastric cancer with attention-enhanced residual Swin Transformer"/></a><div class="content"><a class="title" href="/2025/10/19/post7/" title="【论文阅读】：TME-guided deep learning predicts chemotherapy and immunotherapy response in gastric cancer with attention-enhanced residual Swin Transformer">【论文阅读】：TME-guided deep learning predicts chemotherapy and immunotherapy response in gastric cancer with attention-enhanced residual Swin Transformer</a><time datetime="2025-10-19T06:20:17.000Z" title="发表于 2025-10-19 14:20:17">2025-10-19</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/08/24/post6/" title="【论文阅读】：Semantic-Aware Representation Blending for Multi-Label Image Recognition with Partial Labels"><img src="https://pic4.zhimg.com/v2-94b8e424e313f6351b185f8f572ef271_r.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【论文阅读】：Semantic-Aware Representation Blending for Multi-Label Image Recognition with Partial Labels"/></a><div class="content"><a class="title" href="/2025/08/24/post6/" title="【论文阅读】：Semantic-Aware Representation Blending for Multi-Label Image Recognition with Partial Labels">【论文阅读】：Semantic-Aware Representation Blending for Multi-Label Image Recognition with Partial Labels</a><time datetime="2025-08-24T06:20:17.000Z" title="发表于 2025-08-24 14:20:17">2025-08-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/04/21/post5/" title="【论文阅读】：Med-2E3：A 2D-Enhanced 3D Medical Multimodal Large Language Model"><img src="https://pic1.zhimg.com/v2-ffa731613043c6236cf6fd5dd003aa46_r.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【论文阅读】：Med-2E3：A 2D-Enhanced 3D Medical Multimodal Large Language Model"/></a><div class="content"><a class="title" href="/2025/04/21/post5/" title="【论文阅读】：Med-2E3：A 2D-Enhanced 3D Medical Multimodal Large Language Model">【论文阅读】：Med-2E3：A 2D-Enhanced 3D Medical Multimodal Large Language Model</a><time datetime="2025-04-20T17:57:17.000Z" title="发表于 2025-04-21 01:57:17">2025-04-21</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(https://pica.zhimg.com/v2-fa99c36ab8d889eb688fd3b67b4fc448_1440w.jpg);"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2025 By yuyu</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.3.3</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"><script>(() => {
+  const loadMathjax = () => {
+    if (!window.MathJax) {
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          tags: 'none',
+        },
+        chtml: {
+          scale: 1.1
+        },
+        options: {
+          enableMenu: true,
+          renderActions: {
+            findScript: [10, doc => {
+              for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+                const display = !!node.type.match(/; *mode=display/)
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+                const text = document.createTextNode('')
+                node.parentNode.replaceChild(text, node)
+                math.start = {node: text, delim: '', n: 0}
+                math.end = {node: text, delim: '', n: 0}
+                doc.math.push(math)
+              }
+            }, '']
+          }
+        }
+      }
+
+      const script = document.createElement('script')
+      script.src = 'https://cdn.jsdelivr.net/npm/mathjax/es5/tex-mml-chtml.min.js'
+      script.id = 'MathJax-script'
+      script.async = true
+      document.head.appendChild(script)
+    } else {
+      MathJax.startup.document.state(0)
+      MathJax.texReset()
+      MathJax.typesetPromise()
+    }
+  }
+
+  btf.addGlobalFn('encrypt', loadMathjax, 'mathjax')
+  window.pjax ? loadMathjax() : window.addEventListener('load', loadMathjax)
+})()</script><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const commentCount = n => {
+    const isCommentCount = document.querySelector('#post-meta .gitalk-comment-count')
+    if (isCommentCount) {
+      isCommentCount.textContent= n
+    }
+  }
+
+  const initGitalk = (el, path) => {
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGitalk = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+
+    const gitalk = new Gitalk({
+      clientID: 'Ov23lienmr7axdYseqeC',
+      clientSecret: 'b7f1b4e555108e1113715eb05f7527c6d1ad667d',
+      repo: 'gityuyuhub.github.io',
+      owner: 'gityuyuhub',
+      admin: ['gityuyuhub'],
+      updateCountCallback: commentCount,
+      ...option,
+      id: isShuoshuo ? path : (option && option.id) || '5793b84617be60a9b3bae0c59cd78761'
+    })
+
+    gitalk.render('gitalk-container')
+  }
+
+  const loadGitalk = async(el, path) => {
+    if (typeof Gitalk === 'function') initGitalk(el, path)
+    else {
+      await btf.getCSS('https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.css')
+      await btf.getScript('https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js')
+      initGitalk(el, path)
+    }
+  }
+
+  if (isShuoshuo) {
+    'Gitalk' === 'Gitalk'
+      ? window.shuoshuoComment = { loadComment: loadGitalk }
+      : window.loadOtherComment = loadGitalk
+    return
+  }
+
+  if ('Gitalk' === 'Gitalk' || !true) {
+    if (true) btf.loadComment(document.getElementById('gitalk-container'), loadGitalk)
+    else loadGitalk()
+  } else {
+    window.loadOtherComment = loadGitalk
+  }
+})()</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
